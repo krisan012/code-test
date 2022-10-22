@@ -81,8 +81,8 @@ class BookingController extends Controller
     public function update($id, Request $request)
     {
         $data = $request->all();
-        $cuser = $request->__authenticatedUser;
-        $response = $this->repository->updateJob($id, array_except($data, ['_token', 'submit']), $cuser);
+        $cUser = $request->__authenticatedUser;
+        $response = $this->repository->updateJob($id, array_except($data, ['_token', 'submit']), $cUser);
 
         return response($response);
     }
@@ -130,6 +130,10 @@ class BookingController extends Controller
         return response($response);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function acceptJobWithId(Request $request)
     {
         $data = $request->get('job_id');
@@ -168,6 +172,10 @@ class BookingController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function customerNotCall(Request $request)
     {
         $data = $request->all();
@@ -192,9 +200,14 @@ class BookingController extends Controller
         return response($response);
     }
 
-    public function distanceFeed(Request $request)
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function distanceFeed(Request $request): string
     {
         $data = $request->all();
+        $jobid = null;
 
         if (isset($data['distance']) && $data['distance'] != "") {
             $distance = $data['distance'];
@@ -254,6 +267,10 @@ class BookingController extends Controller
         return response('Record updated!');
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function reopen(Request $request)
     {
         $data = $request->all();
@@ -262,6 +279,10 @@ class BookingController extends Controller
         return response($response);
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     */
     public function resendNotifications(Request $request)
     {
         $data = $request->all();

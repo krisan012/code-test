@@ -42,7 +42,7 @@ class UserRepository extends BaseRepository
     }
 
     public function createOrUpdate($id = null, $request)
-    { 
+    {
         $model = is_null($id) ? new User : User::findOrFail($id);
         $model->user_type = $request['role'];
         $model->name = $request['name'];
@@ -88,14 +88,14 @@ class UserRepository extends BaseRepository
             $user_meta->country = $request['country'];
             $user_meta->reference = (isset($request['reference']) && $request['reference'] == 'yes') ? '1' : '0';
             $user_meta->additional_info = $request['additional_info'];
-            $user_meta->cost_place = isset($request['cost_place']) ? $request['cost_place'] : '';
-            $user_meta->fee = isset($request['fee']) ? $request['fee'] : '';
-            $user_meta->time_to_charge = isset($request['time_to_charge']) ? $request['time_to_charge'] : '';
-            $user_meta->time_to_pay = isset($request['time_to_pay']) ? $request['time_to_pay'] : '';
-            $user_meta->charge_ob = isset($request['charge_ob']) ? $request['charge_ob'] : '';
-            $user_meta->customer_id = isset($request['customer_id']) ? $request['customer_id'] : '';
-            $user_meta->charge_km = isset($request['charge_km']) ? $request['charge_km'] : '';
-            $user_meta->maximum_km = isset($request['maximum_km']) ? $request['maximum_km'] : '';
+            $user_meta->cost_place = $request['cost_place'] ?? '';
+            $user_meta->fee = $request['fee'] ?? '';
+            $user_meta->time_to_charge = $request['time_to_charge'] ?? '';
+            $user_meta->time_to_pay = $request['time_to_pay'] ?? '';
+            $user_meta->charge_ob = $request['charge_ob'] ?? '';
+            $user_meta->customer_id = $request['customer_id'] ?? '';
+            $user_meta->charge_km = $request['charge_km'] ?? '';
+            $user_meta->maximum_km = $request['maximum_km'] ?? '';
             $user_meta->save();
             $new_meta = $user_meta->toArray();
 
@@ -208,6 +208,7 @@ class UserRepository extends BaseRepository
                 $this->disable($model->id);
             }
         }
+        /** Condition is always 'true' because '$model->save()' is evaluated at this point */
         return $model ? $model : false;
     }
 

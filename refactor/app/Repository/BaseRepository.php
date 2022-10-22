@@ -195,8 +195,8 @@ class BaseRepository
         }
 
         if ($validator->fails()) {
-            return false;
-            throw (new ValidationException)->setValidator($validator);
+//            return false;
+            throw (new ValidationException)->setValidator($validator); // unreachable statement
         }
 
         return true;

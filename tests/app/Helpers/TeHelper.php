@@ -20,17 +20,10 @@ class TeHelper
     public static function getUsermeta($user_id, $key = false)
     {
         return $user = UserMeta::where('user_id', $user_id)->first()->$key;
-        if (!$key)
-            return $user->usermeta()->get()->all();
-        else {
-            $meta = $user->usermeta()->where('key', '=', $key)->get()->first();
-            if ($meta)
-                return $meta->value;
-            else return '';
-        }
+
     }
 
-    public static function convertJobIdsInObjs($jobs_ids)
+    public static function convertJobIdsInObjs($jobs_ids): array
     {
 
         $jobs = array();
@@ -47,13 +40,12 @@ class TeHelper
 
         $difference = $due_time->diffInHours($created_at);
 
-
-        if($difference <= 90)
-            $time = $due_time;
-        elseif ($difference <= 24) {
-            $time = $created_at->addMinutes(90);
-        } elseif ($difference > 24 && $difference <= 72) {
+        if($difference > 24 && $difference <= 72){
             $time = $created_at->addHours(16);
+        } elseif ($difference <= 24){
+            $time = $created_at->addMinutes(90);
+        } elseif ($difference <= 90){
+            $time = $due_time;
         } else {
             $time = $due_time->subHours(48);
         }
